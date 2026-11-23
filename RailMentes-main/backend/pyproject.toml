@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "railmentes-backend"
+version = "0.1.0"
+description = "RailMentes: AI-powered train traffic control (backend)"
+requires-python = ">=3.12"
+# Phase 1 only needs networkx (graph routing). Add libraries phase by phase
+# (fastapi, sqlalchemy, lightgbm, ortools, ...) so every dependency is justified.
+dependencies = [
+    "networkx>=3.3",
+    "pydantic>=2.7",  # the shared data contract (app/models/schemas.py)
+    "fastapi>=0.115",  # REST + WebSocket API
+    "uvicorn>=0.30",  # runs the API (python -m uvicorn)
+    "websockets>=12",  # WebSocket support for uvicorn
+    "numpy>=2.0",  # ML: arrays
+    "pandas>=2.2",  # ML: tables for the dataset, split and evaluation
+    "scikit-learn>=1.5",  # ML: Ridge baseline
+    "lightgbm>=4.5",  # ML: the delay model
+    "shap>=0.46",  # ML: explanations ("why late")
+    "matplotlib>=3.9",  # ML: result plots (scripts/train_model.py)
+    "ortools>=9.10",  # the CP-SAT optimizer (app/optimizer/cpsat)
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",  # needed by FastAPI TestClient
+    "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "D"]
+ignore = ["D203", "D213", "D107", "D105"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "E501"]

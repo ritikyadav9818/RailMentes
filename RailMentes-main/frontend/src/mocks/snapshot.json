@@ -1,0 +1,189 @@
+{
+  "tick": 135,
+  "sim_time": "2026-01-15T08:15:00",
+  "running": true,
+  "strategy": "cpsat",
+  "trains": [
+    {
+      "id": "12951",
+      "name": "Aryavart Vande Express",
+      "category": "premium",
+      "priority": 4,
+      "position": { "block_id": "VDJ-BHP-2", "offset_km": 3.0, "direction": "fwd", "at_station": null },
+      "speed_kmph": 118,
+      "delay_min": 4,
+      "status": "running",
+      "next_stations": [
+        { "station": "GNK", "will_stop": false, "scheduled_min": 148, "predicted_min": 152 },
+        { "station": "RMJ", "will_stop": true, "scheduled_min": 170, "predicted_min": 174 },
+        { "station": "ARC", "will_stop": true, "scheduled_min": 226, "predicted_min": 230 }
+      ],
+      "delay_factors": [
+        { "feature": "fog", "contribution_min": 2.1 },
+        { "feature": "upstream_delay", "contribution_min": 1.4 },
+        { "feature": "peak_hour", "contribution_min": 0.5 }
+      ]
+    },
+    {
+      "id": "22401",
+      "name": "Sarangpur Express",
+      "category": "express",
+      "priority": 3,
+      "position": { "block_id": "BHP-GNK-1", "offset_km": 5.2, "direction": "fwd", "at_station": null },
+      "speed_kmph": 70,
+      "delay_min": 12,
+      "status": "running",
+      "next_stations": [
+        { "station": "GNK", "will_stop": false, "scheduled_min": 150, "predicted_min": 158 },
+        { "station": "RMJ", "will_stop": true, "scheduled_min": 178, "predicted_min": 190 },
+        { "station": "SLP", "will_stop": true, "scheduled_min": 200, "predicted_min": 213 }
+      ],
+      "delay_factors": [
+        { "feature": "fog", "contribution_min": 4.8 },
+        { "feature": "upstream_delay", "contribution_min": 5.5 },
+        { "feature": "congestion", "contribution_min": 2.3 },
+        { "feature": "time_of_day", "contribution_min": -0.6 }
+      ]
+    },
+    {
+      "id": "F7701",
+      "name": "Goods Special 7701",
+      "category": "freight",
+      "priority": 1,
+      "position": { "block_id": "GNK-RMJ-3", "offset_km": 2.4, "direction": "rev", "at_station": null },
+      "speed_kmph": 45,
+      "delay_min": 21,
+      "status": "running",
+      "next_stations": [
+        { "station": "GNK", "will_stop": false, "scheduled_min": 140, "predicted_min": 161 },
+        { "station": "BHP", "will_stop": false, "scheduled_min": 160, "predicted_min": 182 }
+      ],
+      "delay_factors": [
+        { "feature": "fog", "contribution_min": 6.0 },
+        { "feature": "train_type", "contribution_min": 4.5 },
+        { "feature": "upstream_delay", "contribution_min": 10.5 }
+      ]
+    },
+    {
+      "id": "54312",
+      "name": "Kalyanpur Passenger",
+      "category": "passenger",
+      "priority": 2,
+      "position": { "block_id": null, "offset_km": 0.0, "direction": null, "at_station": "KLP" },
+      "speed_kmph": 0,
+      "delay_min": 3,
+      "status": "halted_at_station",
+      "next_stations": [
+        { "station": "MJG", "will_stop": true, "scheduled_min": 150, "predicted_min": 153 },
+        { "station": "VDJ", "will_stop": true, "scheduled_min": 168, "predicted_min": 171 }
+      ],
+      "delay_factors": [
+        { "feature": "dwell_time", "contribution_min": 2.0 },
+        { "feature": "fog", "contribution_min": 1.0 }
+      ]
+    },
+    {
+      "id": "12952",
+      "name": "Aryavart Vande Express (down)",
+      "category": "premium",
+      "priority": 4,
+      "position": { "block_id": "MJG-VDJ-2", "offset_km": 4.1, "direction": "rev", "at_station": null },
+      "speed_kmph": 125,
+      "delay_min": 0,
+      "status": "running",
+      "next_stations": [
+        { "station": "MJG", "will_stop": false, "scheduled_min": 140, "predicted_min": 140 },
+        { "station": "SGP", "will_stop": true, "scheduled_min": 205, "predicted_min": 205 }
+      ],
+      "delay_factors": []
+    }
+  ],
+  "blocks": [
+    { "block_id": "VDJ-BHP-2", "train_id": "12951", "direction": "fwd", "closed": false },
+    { "block_id": "BHP-GNK-1", "train_id": "22401", "direction": "fwd", "closed": false },
+    { "block_id": "GNK-RMJ-3", "train_id": "F7701", "direction": "rev", "closed": false },
+    { "block_id": "MJG-VDJ-2", "train_id": "12952", "direction": "rev", "closed": false },
+    { "block_id": "SLP-TLG-1", "train_id": null, "direction": null, "closed": true }
+  ],
+  "disruptions": [
+    {
+      "id": "d-001",
+      "kind": "fog",
+      "start_tick": 90,
+      "end_tick": 240,
+      "target_ids": [],
+      "speed_factor": 0.7,
+      "description": "Dense fog across the corridor: speeds reduced to 70%."
+    },
+    {
+      "id": "d-002",
+      "kind": "block_closure",
+      "start_tick": 120,
+      "end_tick": 200,
+      "target_ids": ["SLP-TLG-1"],
+      "speed_factor": 0.0,
+      "description": "Track maintenance: SLP-TLG-1 closed."
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "c-001",
+      "kind": "single_line_meeting",
+      "severity": "critical",
+      "train_ids": ["22401", "F7701"],
+      "location": "GNK",
+      "time_min": 158,
+      "description": "Express 22401 reaches GNK at ~158 while freight F7701 is still on the single line GNK-RMJ until ~161."
+    },
+    {
+      "id": "c-002",
+      "kind": "overtaking",
+      "severity": "high",
+      "train_ids": ["12951", "22401"],
+      "location": "BHP-GNK-3",
+      "time_min": 150,
+      "description": "Premium 12951 will catch express 22401 on the single line BHP-GNK; there is no loop to overtake before GNK."
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "r-001",
+      "strategy": "cpsat",
+      "action": {
+        "kind": "hold",
+        "train_id": "22401",
+        "at_station": "GNK",
+        "hold_minutes": 6,
+        "other_train_id": null,
+        "reason": "Freight F7701 is already inside the single-line section GNK-RMJ. Holding 22401 at GNK for 6 min avoids a stop in the section and saves about 9 min of waiting."
+      },
+      "conflict_ids": ["c-001"],
+      "expected_delay_saved_min": 9.5,
+      "status": "proposed"
+    },
+    {
+      "id": "r-002",
+      "strategy": "cpsat",
+      "action": {
+        "kind": "precedence",
+        "train_id": "22401",
+        "at_station": "GNK",
+        "hold_minutes": null,
+        "other_train_id": "12951",
+        "reason": "Premium 12951 has higher priority (4 vs 3). Letting it overtake at the GNK loop reduces total priority-weighted delay by about 11 min."
+      },
+      "conflict_ids": ["c-002"],
+      "expected_delay_saved_min": 11.0,
+      "status": "proposed"
+    }
+  ],
+  "kpis": {
+    "strategy": "cpsat",
+    "avg_delay_min": 8.4,
+    "punctuality_pct": 62.0,
+    "throughput_per_hour": 5.5,
+    "conflicts_avoided": 3,
+    "prediction_mae_min": 3.1,
+    "prediction_rmse_min": 4.6
+  }
+}

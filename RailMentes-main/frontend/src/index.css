@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg font-sans text-text antialiased;
+  overflow: hidden;
+  font-feature-settings: "cv11", "ss01", "tnum";
+  text-rendering: optimizeLegibility;
+}
+
+/* Numbers never jitter: ids, times and values use tabular figures. */
+.font-mono,
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum", "zero";
+}
+
+::selection {
+  background: rgb(56 189 248 / 0.3);
+}
+
+/* Thin dark scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3a4e transparent;
+}
+
+@layer components {
+  /* Glass panel: translucent surface, fine light border, soft shadow. */
+  .glass {
+    @apply border border-white/[0.08] bg-panel/75 shadow-glass backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply border border-white/[0.1] bg-panel/90 shadow-glass backdrop-blur-xl;
+  }
+  .micro-label {
+    @apply text-micro font-medium uppercase text-muted;
+  }
+}
+
+/* ---- map motion ---- */
+
+/* Fog blobs drift slowly sideways; they carry meaning (where the fog is), the drift is decoration. */
+@keyframes fog-drift {
+  from {
+    transform: translateX(-12px);
+  }
+  to {
+    transform: translateX(12px);
+  }
+}
+.fog-blob {
+  animation: fog-drift 7s ease-in-out infinite alternate;
+}
+
+/* Conflict markers: two rings expand and fade. */
+@keyframes pulse-ring {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 1.9s ease-out infinite;
+}
+.pulse-ring-late {
+  animation-delay: 0.95s;
+}
+
+/* Occupied blocks: dashes travel in the direction of the train. */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.flow {
+  animation: flow 1.1s linear infinite;
+}
+
+/* Selected train: a soft ring breathes around the marker. */
+@keyframes select-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.25;
+  }
+}
+.select-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: select-pulse 1.8s ease-in-out infinite;
+}
+
+/* Live dot in the connection badge. */
+@keyframes live-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 7px rgb(52 211 153 / 0);
+  }
+}
+.live-dot {
+  animation: live-dot 1.8s ease-out infinite;
+}
+
+/* Reduced motion: no drifting, no pulsing, no flow. Fog stays as a still tint, conflicts as a still ring. */
+@media (prefers-reduced-motion: reduce) {
+  .fog-blob,
+  .flow,
+  .select-pulse,
+  .live-dot {
+    animation: none;
+  }
+  .pulse-ring {
+    animation: none;
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+  .pulse-ring-late {
+    display: none;
+  }
+}
+
+/* Train markers: a hover nudge. The mover itself is positioned by the frame loop, so the lift is on an inner group. */
+.train-body {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.18s ease-out;
+}
+.train-marker:hover .train-body {
+  transform: scale(1.22);
+}
